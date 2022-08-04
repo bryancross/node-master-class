@@ -10,6 +10,15 @@ var url = require('url');
 var StringDecoder = require('string_decoder').StringDecoder;
 var config = require('./config');
 var fs = require('fs');
+var _data = require('./lib/data');
+
+//Test writing data
+//@TODO delete this
+
+_data.create('test', 'newFile', {'foo':'bar'}, function(err){
+    console.log('this was the error', err);
+});
+
 
 
 
@@ -117,25 +126,22 @@ httpsServer.listen(config.httpsPort, function(){
 
 // Define a request router
 
-//define the route handlers
-
 var handlers = {};
 
-// Sample handler
-handlers.sample = function(data, callback)
-{
-    // Callback a HTTP status code, and a payload object
-    callback(406, {'name' : 'sample handler'});
+//define the route handlers
 
+// handler for ping
+handlers.ping = function(data, callback) {
+    callback(200);
 };
 
 //Not found handler
 handlers.notFound = function(data, callback)
 {
     callback(404);
-}
+};
 
 var router = {
-    'sample' : handlers.sample
+    'ping' : handlers.ping
 };
 
